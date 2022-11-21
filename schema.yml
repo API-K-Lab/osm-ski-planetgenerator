@@ -1,0 +1,51 @@
+schema_name: Ski
+schema_description: Features that represent ski pistes and transports
+attribution: <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy;
+  OpenStreetMap contributors</a>
+sources:
+  osm:
+    type: osm
+    url: geofabrik:{area}
+tag_mappings:
+  bridge: boolean
+  layer: long
+layers:
+- id: lifts
+  features:
+  - source: osm
+    geometry: line
+    min_zoom: 7
+    include_when:
+      aerialway:
+    attributes:
+    - key: name
+- id: pistes
+  features:
+    - source: osm
+      geometry: line
+      min_zoom: 7
+      include_when:
+        route:
+        - ski
+        - piste
+        piste:difficulty:
+        site: piste
+      attributes:
+      - key: piste:type
+      - key: piste:grooming
+      - key: piste:difficulty
+      - key: name
+      - key: man_made
+      - key: colour
+    - source: osm
+      geometry: polygon
+      min_zoom: 7
+      include_when:
+        __all__:
+          area: yes
+          piste:difficulty:
+      attributes:
+      - key: name
+      - key: piste:difficulty
+      - key: piste:grooming
+      - key: area
